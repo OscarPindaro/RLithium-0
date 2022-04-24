@@ -1,0 +1,93 @@
+{
+  "name": "lower cost training",
+  "description": "trying to train with low cost battery and dynamic battery",
+  "environment": {
+    "state_variables": [
+      "SoC",
+      "Temp",
+      "DoD",
+      "C_rate",
+      "PV_power",
+      "Time"
+    ],
+    "reward_type": "linearized",
+    "action_type": "discrete",
+    "n_actions": 11,
+    "gamma": 1,
+    "init_cycles": 0,
+    "init_dod": 0,
+    "init_soh": 1,
+    "init_c_rate": 0,
+    "pv_path": "data/PV_1year/",
+    "load_path": "data/load/Carico.csv",
+    "n_years": 8,
+    "t_sample": 3600,
+    "buy_price": 0.00015,
+    "sell_price": 5e-05,
+    "unit_battery_cost": 0.375,
+    "min_soh": 0.8,
+    "min_soc": 0,
+    "max_soc": 1,
+    "low_level_min_soc": 0,
+    "low_lvl_max_soc": 1,
+    "cycling_type": "streamflow",
+    "force_soh_monotony": true,
+    "is_battery_dynamic": true,
+    "battery_capacity": 150,
+    "nominal_voltage": 48,
+    "init_soc": 0,
+    "t_env": 25,
+    "n_samples_reset": 525600
+  },
+  "neural_params": {
+    "optimizer": {
+      "class": "Adam",
+      "params": {
+        "lr": 0.0003
+      }
+    },
+    "loss": "mse",
+    "batch_size": 64,
+    "hidden_size": 2
+  },
+  "fqi_params": {
+    "n_iterations": 200,
+    "regressor_type": "action"
+  },
+  "fqi_decision_params": {
+    "fit_on_dataset": false
+  },
+  "approximator_type": "xgboost",
+  "approx_xcboost": {
+    "n_estimators": 100,
+    "objective": "reg:squarederror",
+    "colsample_bytree": 0.8,
+    "subsample": 0.8,
+    "learning_rate": 0.1,
+    "max_depth": 8,
+    "alpha": 0.1,
+    "lambda": 0,
+    "tree_method": "hist",
+    "input_shape": [
+      9
+    ],
+    "n_actions": 11,
+    "output_shape": [
+      1
+    ]
+  },
+  "learn_params": {
+    "is_episode": true,
+    "n_episodes": 100,
+    "n_steps": 10000,
+    "n_steps_per_fit": 24
+  },
+  "test_params": {
+    "is_episode": true,
+    "n_episodes": 10,
+    "n_steps": 1000.0
+  },
+  "use_logger": false,
+  "train_seed": 1234,
+  "test_seed": 4567
+}
