@@ -16,11 +16,32 @@ On some systems, it may be necessary to set an environment variable for the _ope
 MPICC=/path/to/your/mpicc/executable
 ```
 
+
 ## Repository Structure
 The repository is structured in the following way:
 * **current_directory**: contains the scripts used to train and test an agent using the Fitted Q-iteration algorithm
 * **./rse_lib**: contains the source code of the repository and the definition of the Gym and MushroomRL environments
 * **./data**: contains data used to perform the simulations
 * **./notebooks**: contains some python notebooks with examples and visualization
+* **./experiment_folder**: contains the configuration files and the results of training and testing phase
+
+## Usage
+The gym environment is created from  configuration file, that holds all the information regarding simulation parameters and agent parameters. This file is in a format json and can be easily edited for different simulations.
+To train an agent, the following command should be run.
+```sh
+python dataset_gent_and_fit_FQI.sh --exp-gen-fit CONF_NAME --json-base-path=BASE_PATH --save-freuqency=FREQUENCY
+```
+This command will launch a training with the parameters described in the file held in BASE_PATH/CONF_NAME. The script will create a dataset for the Fitted Q-Iteration Algorithm, and then fit the agent for the number of steps indicated in the configuration file. During fit, the agent is save every FREQUENCY steps.
+The results are saved in ./experiment_folder/FQI/results/CONF_NAME_0.
+
+To test the agent, the following commands have to be run:
+```sh
+python --exp-names NAME1 NAME2 --jobs=N_JOBS --freq=FREQ
+python --exp-folder PATH_TO_EXP --jobs=JOBS
+```
+The fist command will test all the agent in the folder with prefix NAME1 and NAME2. The number of jobs is used for parallel evaluation. The speed-up in testing performance is linear if there are enough cores. The --freq flag tells how often save the evaluation result so that an analysis on KPI histories can be done.
+The second command tests the baselines **SoC20-80**, **Only_grid** and **Only_battery**. In this script, the whole path to the result folder has to be provided.
+
+
 
 
