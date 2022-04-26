@@ -7,7 +7,8 @@ The simulator has been written following the standard framework [Gym](https://gy
 ## Installation
 Use [Conda](https://docs.conda.io/en/latest/) to install all the dependecies of RLithium using the provided configuration file _requirements.yml_.
 ```sh
-conda env create -f requirements.yml
+conda env create -f requirements.yml --name rlithium_env
+conda activate rlithium_env
 ```
 
 RLithium depends on depencendies of [Gym](https://gym.openai.com/docs/) and [MushroomRL](https://github.com/MushroomRL/mushroom-rl). Visit their installation page for instruction on external dependecies.
